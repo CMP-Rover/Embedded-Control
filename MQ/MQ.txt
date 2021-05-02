@@ -1,0 +1,7 @@
+If you have any issues with the Proteus project, you can find the libraries here: https://electronics-go.com/protues-libraries/
+Make sure to run Proteus in administrator mode and that all the HEX files can be found.
+
+One small note, I tried finding an MQ2 sensor with an analog output but couldn't. 
+Tried replacing that with a sine generator in Proteus, the returned concentration
+seemed to only climb up, so the concentration function must be tested more once 
+we get the sensor IRL.
