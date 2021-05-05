@@ -1,6 +1,7 @@
 #include <MQ2.h>
 #define ReadingInterval 1000  // Just so the serial monitor doesn't go crazy
 
+
 // Creating an MQ2 sensor object
 // (analogPin, digitalPin, warmupPeroid [in ms])
 MQ2 gasSensor(0, 7, 10000);

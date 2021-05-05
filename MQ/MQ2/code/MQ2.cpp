@@ -10,7 +10,7 @@ int MQ2::GetGasConcentration()
 {
     int reading = analogRead(analogPin);
     // Remaps the read value to the sensor to a concentration (check the datasheet)
-    return map(reading, 0, 5, MIN_PPM, MAX_PPM); 
+    return map(reading, analogVmax, analogVmax, MIN_PPM, MAX_PPM); 
 }
 
 bool MQ2::IsGasDetected()

@@ -8,6 +8,8 @@
 
 #define MIN_PPM 300 ///< minimum gas concentration that can be detected by the sensor
 #define MAX_PPM 10000 ///< minimum gas concentration that can be detected by the sensor
+#define analogVmin 0
+#define analogVmax 1023
 
 class MQ2
 {
