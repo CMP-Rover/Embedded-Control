@@ -2,6 +2,8 @@
 #include "GPS.h"
 #include "PID_Control.h"
 #include "MQ7.h"
+#include "MQ2.h"
+#include "DHT.h"
 #define ENCODER_A 2
 #define ENCODER_B 3
 #define PWM 5

@@ -10,7 +10,8 @@ int MQ2::GetGasConcentration()
 {
     int reading = analogRead(analogPin);
     // Remaps the read value to the sensor to a concentration (check the datasheet)
-    return map(reading, analogVmax, analogVmax, MIN_PPM, MAX_PPM); 
+  
+    return map(reading, analogVmin, analogVmax, MIN_PPM, MAX_PPM); 
 }
 
 bool MQ2::IsGasDetected()
@@ -21,6 +22,7 @@ bool MQ2::IsGasDetected()
 
 void MQ2::PrintMQ2Data()
 {
+    
     int gasConc = GetGasConcentration();
     Serial.print("Sensor Value: ");
     Serial.print(gasConc);
