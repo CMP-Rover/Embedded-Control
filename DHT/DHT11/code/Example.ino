@@ -1,21 +1,13 @@
-#include "DHTlib.h"
-#include "SDlib.h"
-void printContent(String content)
-{
-    Serial.println(content.toFloat());
-}
+#include "DHT.h"
+
+DHT D1(3);
 void setup()
 {
-  Serial.begin(9600);
-  while(!Serial);
-  Serial.println("Setup");
-  
-  UpdateDHT();
-  String T = getT();
-  String RH = getRH();
+  Serial.begin(9600);;
 }
 
 void loop()
 {
-  
+  D1.printT();
+  D1.printRH();
 }

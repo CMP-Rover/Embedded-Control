@@ -6,23 +6,31 @@ DHT::DHT(int pin = DATA_PIN)
     data_pin = pin;
 }
 
-void DHT::Initalize()
+int DHT::excpectedPulse(bool lvl)
 {
-    pinMode(DATA_PIN,OUTPUT);
-    digitalWrite(DATA_PIN,HIGH);
+  int count = 0;
+  while(digitalRead(DATA_PIN) == lvl)
+    count++;
+   return count;
+}
+
+void DHT::GetData()
+{
+    pinMode(data_pin,OUTPUT);
+    digitalWrite(data_pin,HIGH);
     delay(1000);
-    digitalWrite(DATA_PIN,LOW);
+    digitalWrite(data_pin,LOW);
     delay(18);
-    digitalWrite(DATA_PIN,HIGH);
+    digitalWrite(data_pin,HIGH);
     delayMicroseconds(40);
-    pinMode(DATA_PIN,INPUT);
-    if (digitalRead(DATA_PIN) == LOW)
+    pinMode(data_pin,INPUT);
+    if (digitalRead(data_pin) == LOW)
     {
-        while(digitalRead(DATA_PIN) == LOW)
+        while(digitalRead(data_pin) == LOW)
         {
         //delayMicroseconds(80);
         }
-        while(digitalRead(DATA_PIN) == HIGH)
+        while(digitalRead(data_pin) == HIGH)
         {
         //delayMicroseconds(80);
         }
@@ -32,9 +40,6 @@ void DHT::Initalize()
     Serial.println("DHT NOT RESPONDING");
     return;
   }
-}
-void DHT::GetData()
-{
     for (int i = 0;i < 80;i++)
   {
     pulse[i] = excpectedPulse(i%2);
@@ -102,7 +107,7 @@ unsigned char DHT:: getRH_int()
 
 unsigned char DHT:: getRH_dec()
 {
-    return RH_dec
+    return RH_dec;
 }
 
 unsigned char DHT:: getT_int()
@@ -115,25 +120,14 @@ unsigned char DHT:: getT_dec()
     return T_dec;
 }
 
-String DHT::getRH()
-{
-    return String(RH_int)+'.'+String(RH_dec);
-}
-
-String DHT::getT()
-{
-   return String(T_int)+'.'+String(T_dec);
-}
-
-void printT()
+void DHT::printT()
 {
     Serial.print("Temp : ");
     Serial.print(T_int);
     Serial.print(".");
     Serial.println(T_dec);
 }
-
-void printRH()
+void DHT::printRH()
 {
     Serial.print("RH : ");
     Serial.print(RH_int);
