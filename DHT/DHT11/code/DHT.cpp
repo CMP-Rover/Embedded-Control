@@ -9,7 +9,7 @@ DHT::DHT(int pin = DATA_PIN)
 int DHT::excpectedPulse(bool lvl)
 {
   int count = 0;
-  while(digitalRead(DATA_PIN) == lvl)
+  while(digitalRead(data_pin) == lvl)
     count++;
    return count;
 }
