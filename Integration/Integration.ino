@@ -11,7 +11,8 @@
 #define IN1 7
 _BMP180_ bmpp;
 GPS G;
-MQ7 Sensor(0, 2, 1000);
+MQ7 Sensor(0, 8, 1000);
+MQ2 gasSensor(0, 9, 2000);
 void setup()
 {
   Serial.begin(9600);
@@ -26,6 +27,8 @@ void setup()
   setPIDParameters (24, 0, 16);
   setMotorEncoders(ENCODER_A, ENCODER_B);
   attachInterrupt(digitalPinToInterrupt(ENCODER_A), readEncoder, RISING);
+  //Serial.println("Gas sensor warming up!");
+  gasSensor.Warmup();
 }
 
 void loop()
@@ -41,9 +44,10 @@ void loop()
     bmpp.getTemperature(&temp);
     bmpp.getPressure(&pressure);
     altitude = bmpp.pressureToAltitude(101325, pressure);
-    int ppm = Sensor.GetGasConcentration();
-    bool gasDetected = Sensor.IsGasDetected();
-    //    Sensor.PrintMQ7Data();
+    //MQ7
+   Sensor.PrintMQ7Data();
+    //MQ2
+   gasSensor.PrintMQ2Data();
     if ((x - 11000) > 0)
     {
       G.readData(150);
@@ -60,4 +64,6 @@ void loop()
     Serial.println(pos);
   }
   i++;
+  
+  
 }
