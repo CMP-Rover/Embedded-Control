@@ -1,10 +1,10 @@
-#include <MQ2.h>
+#include "MQ2.h"
 #define ReadingInterval 1000  // Just so the serial monitor doesn't go crazy
 
 
 // Creating an MQ2 sensor object
 // (analogPin, digitalPin, warmupPeroid [in ms])
-MQ2 gasSensor(0, 7, 10000);
+MQ2 gasSensor(0, 7, 2000);
 
 
 void setup() {
@@ -26,6 +26,6 @@ void loop() {
 
   // Gets the data and prints, all in one go
   gasSensor.PrintMQ2Data();
-
-  delay(ReadingInterval);  // wait 1s for next reading
+  Serial.println("Gas!");
+  //delay(ReadingInterval);  // wait 1s for next reading
 }

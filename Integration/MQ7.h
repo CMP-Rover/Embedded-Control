@@ -1,5 +1,5 @@
-#define MIN_PPM 10
-#define MAX_PPM 500
+#define MIN_PPM1 10
+#define MAX_PPM1 500
 #define WARMUP_PERIOD 1000 //meliseconds
 #define ANALOG_PIN 0
 #define DIGITAL_PIN 2

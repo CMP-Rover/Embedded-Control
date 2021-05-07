@@ -2,14 +2,17 @@
 #include "GPS.h"
 #include "PID_Control.h"
 #include "MQ7.h"
+#include "MQ2.h"
+#include "DHT.h"
 #define ENCODER_A 2
 #define ENCODER_B 3
 #define PWM 5
 #define IN2 6
 #define IN1 7
 _BMP180_ bmpp;
-//GPS G;
-MQ7 Sensor(0, 2, 1000);
+GPS G;
+MQ7 Sensor(0, 8, 1000);
+MQ2 gasSensor(0, 9, 2000);
 void setup()
 {
   Serial.begin(9600);
@@ -24,23 +27,33 @@ void setup()
   setPIDParameters (24, 0, 16);
   setMotorEncoders(ENCODER_A, ENCODER_B);
   attachInterrupt(digitalPinToInterrupt(ENCODER_A), readEncoder, RISING);
+  //Serial.println("Gas sensor warming up!");
+  gasSensor.Warmup();
 }
 
 void loop()
 {
-  int i =0 ;
+  int x = millis();
+  int i = 0;
   float pos = getCurrentPosition();
   float conSignal = computePID(pos);
   convertSignal(conSignal , PWM ,  IN1 , IN2);
-  if (i % 2000 == 0)
+  if (i % 5000 == 0)
   {
     float temp = 0, pressure = 0, altitude = 0;
     bmpp.getTemperature(&temp);
     bmpp.getPressure(&pressure);
     altitude = bmpp.pressureToAltitude(101325, pressure);
-    int ppm = Sensor.GetGasConcentration();
-    bool gasDetected = Sensor.IsGasDetected();
-//    Sensor.PrintMQ7Data();
+    //MQ7
+   Sensor.PrintMQ7Data();
+    //MQ2
+   gasSensor.PrintMQ2Data();
+    if ((x - 11000) > 0)
+    {
+      G.readData(150);
+      Serial.print("Position: ");
+      G.printAll();
+    }
     Serial.print("Temperature:");
     Serial.println(temp);
     Serial.print("Pressure:");
@@ -51,8 +64,6 @@ void loop()
     Serial.println(pos);
   }
   i++;
-  //  while (!G.readPer())
-  //  {
-  //  }
-  //  G.printAll();
+  
+  
 }
