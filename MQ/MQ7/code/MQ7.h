@@ -35,13 +35,13 @@ public:
     ///
     /// Vout (voltage measured from the device) ---> ??? ppm
     ///
-    /// @return the Carbon Monoxide concentration in ppm
+    /// @returns the Carbon Monoxide concentration in ppm
     int GetGasConcentration();
 
     /// Reads the digital pin of the sensor
     /// This will be true if the Carbon Monoxide concentration has exceeded a certain limit
     /// The threshold level can be changed using a potentiometer
-    /// @return a boolean that signifies whether the CO concentration has exceeded the limit or not
+    /// @returns a boolean that signifies whether the CO concentration has exceeded the limit or not
     bool IsGasDetected();
 
     /// Prints the Carbon Monoxide concentration
