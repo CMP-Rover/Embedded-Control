@@ -8,6 +8,7 @@ void setup()
 
 void loop()
 {
+  D1.GetData();
   D1.printT();
   D1.printRH();
 }

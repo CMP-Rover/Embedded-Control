@@ -13,6 +13,7 @@ _BMP180_ bmpp;
 GPS G;
 MQ7 Sensor(0, 8, 1000);
 MQ2 gasSensor(0, 9, 2000);
+DHT D1(10);
 void setup()
 {
   Serial.begin(9600);
@@ -41,13 +42,20 @@ void loop()
   if (i % 5000 == 0)
   {
     float temp = 0, pressure = 0, altitude = 0;
+    int MQ2Data=0 , MQ7Data=0, DHTData=0;
+    bool MQ2Detected=false ,MQ7Detected=false;
+    unsigned char RH_int, T_int, RH_dec, T_dec;
     bmpp.getTemperature(&temp);
     bmpp.getPressure(&pressure);
     altitude = bmpp.pressureToAltitude(101325, pressure);
     //MQ7
-   Sensor.PrintMQ7Data();
+    Sensor.PrintMQ7Data(&MQ7Data,&MQ7Detected);
     //MQ2
-   gasSensor.PrintMQ2Data();
+    gasSensor.PrintMQ2Data(&MQ2Data,&MQ2Detected);
+    //DHT
+    D1.GetData();
+    D1.printT(&T_int,&T_dec);
+    D1.printRH(&RH_int,&RH_dec);
     if ((x - 11000) > 0)
     {
       G.readData(150);

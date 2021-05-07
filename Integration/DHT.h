@@ -17,8 +17,8 @@ public:
     unsigned char getRH_dec();
     unsigned char getT_int();
     unsigned char getT_dec();
-    void printT();
-    void printRH();
+    void printT(unsigned char t_int,unsigned char t_dec);
+    void printRH(unsigned char rH_int,unsigned char rH_dec);
 	  int excpectedPulse(bool lvl);
 };
 

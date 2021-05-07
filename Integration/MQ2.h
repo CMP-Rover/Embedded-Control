@@ -42,7 +42,7 @@ public:
 
     /// Prints the detected gas concentration and whether that concentration is
     /// past the allowed threshold.
-    void PrintMQ2Data();
+    void PrintMQ2Data(int data,bool detected);
 
     /// Waits WarmupPeriod seconds before letting the code continue
     /// Required so that the sensor gets enough time to heat up to detect

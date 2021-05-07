@@ -120,15 +120,19 @@ unsigned char DHT:: getT_dec()
     return T_dec;
 }
 
-void DHT::printT()
+void DHT::printT(unsigned char t_int,unsigned char t_dec)
 {
+  t_int=T_int;
+  t_dec=T_dec;
     Serial.print("Temp : ");
     Serial.print(T_int);
     Serial.print(".");
     Serial.println(T_dec);
 }
-void DHT::printRH()
+void DHT::printRH(unsigned char rH_int,unsigned char rH_dec)
 {
+  rH_int=RH_int;
+  rH_dec=RH_dec;
     Serial.print("RH : ");
     Serial.print(RH_int);
     Serial.print(".");
