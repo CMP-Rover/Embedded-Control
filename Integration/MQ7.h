@@ -16,7 +16,7 @@ public:
     MQ7(int analog, int digital, int warmup);
     int GetGasConcentration();
     bool IsGasDetected();
-    void PrintMQ7Data();
+    void PrintMQ7Data(int data,bool detected);
     void Warmup();
     ~MQ7();
 };

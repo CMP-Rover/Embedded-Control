@@ -20,14 +20,15 @@ bool MQ2::IsGasDetected()
     return digitalRead(digitalPin);
 }
 
-void MQ2::PrintMQ2Data()
+void MQ2::PrintMQ2Data(int data,bool detected)
 {
     
     int gasConc = GetGasConcentration();
+    data=gasConc;
     Serial.print("Sensor Value: ");
     Serial.print(gasConc);
-
-    if (IsGasDetected())
+    detected=IsGasDetected();
+    if (detected)
     {
         Serial.print(" | Gas detected!");
     }

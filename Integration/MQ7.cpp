@@ -28,13 +28,15 @@ bool MQ7::IsGasDetected()
     return digitalRead(digital_pin);
 }
 
-void MQ7::PrintMQ7Data()
+void MQ7::PrintMQ7Data(int data,bool detected)
 {
     int PPM = GetGasConcentration();
+    data=PPM;
     Serial.print("CO: ");
     Serial.print(PPM);
     Serial.print(" ppm");
-    if (IsGasDetected())
+    detected=IsGasDetected();
+    if (detected)
     {
         Serial.println(" | Gas detected!");
     }
