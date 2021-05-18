@@ -5,7 +5,7 @@
 #include "src/MQ/MQ7/code/MQ7.h"
 #include "src/MQ/MQ2/code/MQ2.h"
 #include "src/DHT/DHT11/code/DHT.h"
-
+SoftwareSerial mySerial(10,11);
 #define ENCODER_A 2
 #define ENCODER_B 3
 #define PWM 5
@@ -13,7 +13,7 @@
 #define IN1 7
 
 _BMP180_* Pbmp = new _BMP180_();
-GPS* Pgps = new GPS();
+GPS* Pgps = new GPS(&mySerial);
 MQ7* Pmq7 = new MQ7(0, 8, 1000);
 MQ2* Pmq2 = new MQ2(0, 9, 2000);
 DHT* Pdht=new DHT(53);

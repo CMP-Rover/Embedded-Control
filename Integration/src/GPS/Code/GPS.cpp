@@ -1,9 +1,10 @@
 #include "GPS.h"
 
-GPS::GPS()
+GPS::GPS(SoftwareSerial*mySerial)
 {
     latitude = 0.0;
     longitude = 0.0;
+    this->mySerial= mySerial;
 }
 double GPS::getLatitude()
 {
@@ -20,25 +21,23 @@ void GPS::readData(unsigned long duration)
     // it takes about duration ms for it to read all NMEA sentences
     for (unsigned long start = millis(); millis() - start < duration;)
     {
-        while (Serial.available())
+        while (mySerial->available())
         {
             // a start of NMEA sentence
-            if (Serial.read() == '$')
+            if (mySerial->read() == '$')
             {
                 // read a complete sentence
-                Serial.readBytesUntil('\n', reading, 72);
+                mySerial->readBytesUntil('\n', reading, 72);
                 reading[71] = '\0';
                 if (reading[2] == 'G' && reading[3] == 'G' && reading[4] == 'A')
                 {
                     // atof function takes first double at the beginning of the passed char*
-                    latitude = atof(reading + 17);
-
+                    latitude = atof(reading + 16);
                     // convert to degrees and minutes
                     int integerPart = ((int)latitude / 100);
                     latitude = integerPart + ((latitude)-integerPart * 100) / 60.0;
 
                     longitude = atof(reading + 29);
-
                     integerPart = ((int)longitude / 100);
                     longitude = integerPart + ((longitude)-integerPart * 100) / 60.0;
                 }
