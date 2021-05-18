@@ -6,8 +6,8 @@
 /// to HIGH, otherwise, it's low.
 /// @note For more info: https://lastminuteengineers.com/mq2-gas-senser-arduino-tutorial/
 
-#define MIN_PPM 300 ///< minimum gas concentration that can be detected by the sensor
-#define MAX_PPM 10000 ///< minimum gas concentration that can be detected by the sensor
+#define MIN_PPM_MQ2 300 ///< minimum gas concentration that can be detected by the sensor
+#define MAX_PPM_MQ2 10000 ///< minimum gas concentration that can be detected by the sensor
 #define analogVmin 0
 #define analogVmax 1023
 
@@ -33,7 +33,7 @@ public:
     /// this hasn't been tested as much as I'd like. Using a sine generator as
     /// a replacement doesn't seem to work well...
     /// @returns The gas concentration in ppm.
-    int GetGasConcentration();
+    float GetGasConcentration();
 
     /// Reads the digital pin specified in the constructor.
     /// @attention This function sets the digital pin's mode to INPUT.
