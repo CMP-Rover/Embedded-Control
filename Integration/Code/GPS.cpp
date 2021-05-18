@@ -31,7 +31,7 @@ void GPS::readData(unsigned long duration)
                 if (reading[2] == 'G' && reading[3] == 'G' && reading[4] == 'A')
                 {
                     // atof function takes first double at the beginning of the passed char*
-                    latitude = atof(reading + 17);
+                    latitude = atof(reading + 16);
 
                     // convert to degrees and minutes
                     int integerPart = ((int)latitude / 100);
