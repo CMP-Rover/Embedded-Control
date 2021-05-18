@@ -5,7 +5,6 @@
 #include "src/MQ/MQ7/code/MQ7.h"
 #include "src/MQ/MQ2/code/MQ2.h"
 #include "src/DHT/DHT11/code/DHT.h"
-#include <SPI.h>
 
 #define ENCODER_A 2
 #define ENCODER_B 3
@@ -13,19 +12,19 @@
 #define IN2 6
 #define IN1 7
 
-_BMP180_ bmp;
-GPS gps;
-MQ7 mq7(0, 8, 1000);
-MQ2 mq2(0, 9, 2000);
+_BMP180_* Pbmp = new _BMP180_();
+GPS* Pgps = new GPS();
+MQ7* Pmq7 = new MQ7(0, 8, 1000);
+MQ2* Pmq2 = new MQ2(0, 9, 2000);
 DHT* Pdht=new DHT(53);
 
 
 void setup()
 {
   Serial.begin(9600);
-  bmp.begin();
-  mq2.Warmup();
-  mq7.Warmup();
+  Pbmp->begin();
+  Pmq2->Warmup();
+  Pmq7->Warmup();
 
   pinMode(ENCODER_A, INPUT); // ENCODER_A as Input
   pinMode(ENCODER_B, INPUT); // ENCODER_B as Input
@@ -55,24 +54,24 @@ void loop()
     int DHTData = 0;
 
     // BMP
-    bmp.getTemperature(&temp);
-    bmp.getPressure(&pressure);
-    altitude = bmp.pressureToAltitude(101325, pressure);
+    Pbmp->getTemperature(&temp);
+    Pbmp->getPressure(&pressure);
+    altitude = Pbmp->pressureToAltitude(101325, pressure);
 
     //MQ7
-    mq7.PrintMQ7Data();
+    Pmq7->PrintMQ7Data();
 
     //MQ2
-    //mq2.PrintMQ2Data();
+    //Pmq2->PrintMQ2Data();
 
     //DHT
     Pdht->Serial_print_data();
 
     if ((x - 11000) > 0)
     {
-      gps.readData(150);
+      Pgps->readData(150);
       Serial.print("Position: ");
-      gps.printAll();
+      Pgps->printAll();
     }
 
     Serial.print("Temperature:");
@@ -84,17 +83,6 @@ void loop()
     Serial.print("Pos : ");
     Serial.println(pos);
 
-//    Serial.println("Printing...");
-//    file.print("Temperature:");
-//    file.println(String(temp));
-//    file.print("Pressure:");
-//    file.println(String(pressure / 100.0));
-//    file.print("Altitude:");
-//    file.println(String(altitude));
-//    file.print("Pos : ");
-//    file.println(String(pos));
-//    file.println("--------------------------------------------");
-//    file.close();
 
     Serial.println("End!");
     Serial.println("--------------------------------------------");
