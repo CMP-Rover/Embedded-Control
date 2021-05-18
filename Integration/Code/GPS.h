@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include"Arduino.h"
-
+#include<SoftwareSerial.h>
 /// GPS location is defined by latitude خط عرض and longitude خط طول \n
 /// It takes about 10 -15 seconds at the beginning till readings become accurate \n
 /// Connect GPS TX to arduino's RX and connect Serial TX to arduino's TX \n
@@ -17,29 +17,40 @@ class GPS
 private:
     double latitude;
     double longitude;
-
+    SoftwareSerial *mySerial;
 public:
-GPS();
+
+/// Constructor
+/// @param mySerial: of type SoftwareSerial, you should create an object of SoftwareSerial and 
+/// pass it by pointer to the GPS.
+/// # Example:
+/// ~~~~~~~~~~~{.cpp}
+/// SoftwareSerial mySerial(2,3);
+/// GPS myGPS(&mySerial);
+/// ~~~~~~~~~~~{.cpp}
+/// connect rx of mySerial to tx of GPS and tx of mySerial to rx of GPS
+GPS(SoftwareSerial*mySerial);
 /// get the latitude 
 double getLatitude();
 /// get the longitude
 double getLongitude();
 /// it takes 100 ms to read data, so it's a big delay.\n Use it once a while to update readings (i.e. once a minute).
 /// or use GPS::readEachMS()
-/// @param duration: duration it takes to wait for data. default: 100 ms
-void readData(unsigned long duration = 100);
+/// @param duration: duration it takes to wait for data. default: 500 ms
+void readData(unsigned long duration = 500);
 
 /// read true values every duration ms
 /// @param freq: data reading frequency in milli seconds. default: once each 10 seconds (optional)
 /// @param duration: like readData (optional)
 /// return true if read new data
 /// this function will read starting from 11th second. as before it: data is not ready yet
-bool readPer(unsigned long freq = 10000,unsigned long duration = 100);
+bool readPer(unsigned long freq = 10000,unsigned long duration = 500);
 
 /// print on Serial monitor
 void printAll();
 /// Get position and put it into Google maps
 String getPosition();
+
 };
 
 #endif
