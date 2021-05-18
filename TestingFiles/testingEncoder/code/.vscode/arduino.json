@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "MostafaWael_227.ino",
+    "output": ".\\bin"
+}
