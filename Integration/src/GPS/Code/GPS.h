@@ -24,10 +24,10 @@ public:
 /// @param mySerial: of type SoftwareSerial, you should create an object of SoftwareSerial and 
 /// pass it by pointer to the GPS.
 /// # Example:
-/// ~~~~~~~~~~~{.cpp}
+/// ~~~~~~~~~~~ {.cpp}
 /// SoftwareSerial mySerial(2,3);
 /// GPS myGPS(&mySerial);
-/// ~~~~~~~~~~~{.cpp}
+/// ~~~~~~~~~~~
 /// connect rx of mySerial to tx of GPS and tx of mySerial to rx of GPS
 GPS(SoftwareSerial*mySerial);
 /// get the latitude 
@@ -48,9 +48,13 @@ bool readPer(unsigned long freq = 10000,unsigned long duration = 500);
 
 /// print on Serial monitor
 void printAll();
-/// Get position and put it into Google maps
+/// Get position which you can put into Google maps
 String getPosition();
+/// print NMEA syntax
+void NMEA();
 
+/// Debug number of satellites
+void DebugSatellites();
 };
 
 #endif
