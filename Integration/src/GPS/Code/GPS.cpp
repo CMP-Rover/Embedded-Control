@@ -19,7 +19,7 @@ void GPS::readData(unsigned long duration)
     char reading[72];
 
     // it takes about duration ms for it to read all NMEA sentences
-    for (unsigned long start = millis(); millis() - start < 500;)
+    for (unsigned long start = millis(); millis() - start < duration;)
     {
         while (mySerial->available())
         {
