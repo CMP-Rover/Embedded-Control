@@ -12,8 +12,8 @@
 #define analogVmax 1023
 
 // Low threshold, medium threshold, high threshold
-static const int SensitivityThresholds[] = {0,384,768};
-enum Thresholds = {Low, Med, HI};
+static const int MQ2SensitivityThresholds[] = {0,384,768};
+enum MQ2Thresholds{Low, Med, Hi};
 
 class MQ2
 {
@@ -22,13 +22,14 @@ private:
     int digitalPin = 7;      ///< This pin should be HIGH if a gas is past the configured concentration or LOW if not.
     int WarmupPeroid = 1000; ///< Required so the filliment warms up in ms
     int currentThreshold;
+    bool gasDetected = false;
 public:
     /// The constructor for the MQ2 sensor object.
     /// @param analog The analog pin the sensor is connected to
     /// @param digital The digital pin the sensor is connected to
     /// @param reading The reading interval in ms
 
-    MQ2(int analog, int digital, int warmup, int Threshold);
+    MQ2(int analog, int warmup, int Threshold);
 
     /// Normal destructor, nothing special here.
     ~MQ2();
@@ -49,7 +50,9 @@ public:
 
     /// Prints the detected gas concentration and whether that concentration is
     /// past the allowed threshold.
-    void PrintMQ2Data();
+    /// @param plotter If false, prints normal info regarding the analog reading and whether gas is detected.
+    /// Otherwise, only prints the analog reading for the plotter.
+    void PrintMQ2Data(bool plotter);
 
     /// Waits WarmupPeriod seconds before letting the code continue
     /// Required so that the sensor gets enough time to heat up to detect

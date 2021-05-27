@@ -10,13 +10,17 @@
 // The sensor will still respond to changes in CO (if you breath on it for example) but will not be accurate with respect to concentration
 
 
-#define MIN_PPM_MQ7 10
-#define MAX_PPM_MQ7 500
-#define WARMUP_PERIOD 1000 //meliseconds
-#define ANALOG_PIN 0
-#define DIGITAL_PIN 2
-#define MAX_OUTPUT 4.3
-#define MIN_OUTPUT 2.5
+#define MIN_PPM_MQ7  10
+#define MAX_PPM_MQ7  500
+#define WARMUP_PERIOD  1000 //meliseconds
+#define ANALOG_PIN  0
+#define DIGITAL_PIN  2
+#define MAX_OUTPUT  4.3
+#define MIN_OUTPUT  2.5
+
+// Low threshold, medium threshold, high threshold
+static const int MQ7SensitivityThresholds[] = {0,384,768};
+enum MQ7Thresholds{Low, Med, Hi};
 
 class MQ7
 {
@@ -24,17 +28,21 @@ private:
     int analog_pin;
     int digital_pin;
     int warmup_period;
+    int detectionThreshold;
+    bool gasDetected;
 
 public:
     /// The constructer for the MQ7 sensor object.
     /// @param analog the analog pin the sensor is connected to
     /// @param digital the digital pin the sensor is conneced to
     /// @param warmup the warmup period the sensor needs before it can work
-    MQ7(int analog, int digital, int warmup);
+    MQ7(int analog, int warmup, int threshold);
 
     /// Reads the Carbon Monoxide concentration from the analog pin specified in the constructor.
     /// The sensor sends a voltage representing the CO concentration
     ///
+    /// @param mapToPPM determines whether to map the analog values to PPM or just return the analog value as is.
+    /// @param threshold determines the analog reading at which the code sets gasDetected to true, also determines whether the function returns 0 or th reading.
     /// Knowing the minimum and maximum range of CO that it can measure in ppm and knowing the minimum and maximum output voltage correspodning to those concentrations,
     /// we can use cross multiplication to get the result
     ///
@@ -43,7 +51,7 @@ public:
     /// Vout (voltage measured from the device) ---> ??? ppm
     ///
     /// @returns the Carbon Monoxide concentration in ppm
-    void GetGasConcentration(int &, float &, float &);
+    void GetGasConcentration(int &, float &, float &, bool mapToPPM);
 
     /// Reads the digital pin of the sensor
     /// This will be true if the Carbon Monoxide concentration has exceeded a certain limit
@@ -52,7 +60,9 @@ public:
     bool IsGasDetected();
 
     /// Prints the Carbon Monoxide concentration
-    void PrintMQ7Data();
+    /// @param plotter If false, prints normal info regarding the analog reading and whether gas is detected.
+    /// Otherwise, only prints the analog reading for the plotter.
+    void PrintMQ7Data(bool plotter);
 
     /// This function just acts as a delay so that the sensor can heat up
     /// This is necessary for the sensor to function in real life

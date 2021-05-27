@@ -5,21 +5,20 @@
 #include "src/MQ/MQ7/code/MQ7.h"
 #include "src/MQ/MQ2/code/MQ2.h"
 #include "src/DHT/DHT11/DHT11/DHT.h"
-SoftwareSerial mySerial(10, 11);
 
-_BMP180_* Pbmp = new _BMP180_();
-GPS* Pgps = new GPS(&mySerial);
-MQ7* Pmq7 = new MQ7(14,53 , 1000);
-MQ2* Pmq2 = new MQ2(15,33, 2000);
-DHT* Pdht = new DHT(52);
+
+SoftwareSerial mySerial(SSRX, SSTX);
+GPS *Pgps = new GPS(&mySerial);
+MQ7 *Pmq7 = new MQ7(14, 53, 1000);
+MQ2 *Pmq2 = new MQ2(15, 33, 2000);
+DHT *Pdht = new DHT(52);
 
 void setup()
 {
   Serial.begin(9600);
-   mySerial.begin(9600);
-   Pbmp->begin();
-   Pmq2->Warmup();
-   Pmq7->Warmup();
+  mySerial.begin(9600);
+  Pmq2->Warmup();
+  Pmq7->Warmup();
 }
 
 void loop()
@@ -31,22 +30,15 @@ void loop()
     float temp = 0, pressure = 0, altitude = 0;
     unsigned char RH_int, T_int, RH_dec, T_dec;
     int DHTData = 0;
-        
-    // BMP
-    Pbmp->getTemperature(&temp);
-    Pbmp->getPressure(&pressure);
-    altitude = Pbmp->pressureToAltitude(101325, pressure);
-
-
+    
     //MQ7
-     Pmq7->PrintMQ7Data();
+    Pmq7->PrintMQ7Data();
 
     //MQ2
-     Pmq2->PrintMQ2Data();
-   
+    Pmq2->PrintMQ2Data();
+
     //DHT
     Pdht->Serial_print_data();
-
 
     if ((x - 11000) > 0)
     {
@@ -65,5 +57,4 @@ void loop()
     Serial.println("--------------------------------------------");
     i++;
   }
-
 }

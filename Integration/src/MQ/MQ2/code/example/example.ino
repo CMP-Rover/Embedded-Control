@@ -4,7 +4,7 @@
 
 // Creating an MQ2 sensor object
 // (analogPin, digitalPin, warmupPeroid [in ms], Sensitivity (Low, Med, Hi))
-MQ2 gasSensor(0, 7, 2000, Low);
+MQ2 gasSensor(0, 2000, Low);
 
 
 void setup() {
@@ -25,7 +25,9 @@ void loop() {
   bool gasDetected = gasSensor.IsGasDetected();
 
   // Gets the data and prints, all in one go
-  gasSensor.PrintMQ2Data();
+  // If passed false, prints the analog reading and whether gas is detected or not.
+  // If passed true, only prints the analog reading, used for plotting.
+  gasSensor.PrintMQ2Data(true);
 
   delay(ReadingInterval);  // wait 1s for next reading
 }

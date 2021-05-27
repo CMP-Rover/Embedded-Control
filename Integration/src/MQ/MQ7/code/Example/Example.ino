@@ -1,6 +1,6 @@
 #include "MQ7.h"
 
-MQ7 Sensor(0, 2, 1000);
+MQ7 Sensor(1, 1000, Low);
 
 void setup()
 {
@@ -11,6 +11,6 @@ void setup()
 
 void loop()
 {
-  Sensor.PrintMQ7Data();
+  Sensor.PrintMQ7Data(true);
   delay(250);
 }

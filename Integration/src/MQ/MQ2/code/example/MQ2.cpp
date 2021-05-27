@@ -4,9 +4,9 @@
 //#include "../../../Util/Util.h" // Uncomment this if you're working with Integration.ino
 
 MQ2::MQ2(int analog, int digital, int warmup, int Threshold)
-    : analogPin(analog), digitalPin(digital), WarmupPeroid(warmup) {
-      currentThreshold = SensitivityThresholds[Threshold];
-      }
+  : analogPin(analog), digitalPin(digital), WarmupPeroid(warmup) {
+  currentThreshold = MQ2SensitivityThresholds[Threshold];
+}
 
 MQ2::~MQ2() {}
 
@@ -14,40 +14,46 @@ MQ2::~MQ2() {}
 // If the current reading is less than the current analog threshold, returns 0;
 float MQ2::GetGasConcentration(bool realConc)
 {
-    int reading = analogRead(analogPin);  
-    if(reading < currentThreshold) reading = 0;
-    
-    if(realConc)
-      return mapfloat(reading, analogVmin, analogVmax, MIN_PPM_MQ2, MAX_PPM_MQ2); 
-    else
-      return reading;
+  int reading = analogRead(analogPin);
+  if (reading < currentThreshold) {
+    reading = 0;
+    gasDetected = true;
+  }
+  else gasDetected = true;
+
+  if (realConc)
+    return mapfloat(reading, analogVmin, analogVmax, MIN_PPM_MQ2, MAX_PPM_MQ2);
+  else
+    return reading;
 }
 
 bool MQ2::IsGasDetected()
 {
-    pinMode(digitalPin, INPUT);
-    return digitalRead(digitalPin);
+  return gasDetected;
 }
 
-void MQ2::PrintMQ2Data()
+void MQ2::PrintMQ2Data(bool plotter)
 {
+  float gasConc = GetGasConcentration(false);
+  if (!plotter)
+  {
     String output = "MQ2: PPM: ";
-    float gasConc = GetGasConcentration(false);
     output += String(gasConc, 2);
     if (IsGasDetected())
     {
-        output += " | Gas detected!";
+      output += " | Gas detected!";
     }
-//    Serial.println(output);
-    Serial.println(gasConc);
+    Serial.println(output);
+  }
+  else Serial.println(gasConc);
 }
 
 void MQ2::Warmup()
 {
-    delay(WarmupPeroid);
+  delay(WarmupPeroid);
 }
 
 void MQ2::LowSensitivity()
 {
-  
+
 }
