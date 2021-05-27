@@ -109,8 +109,9 @@ void GPS::NMEA()
         }
     }
 }
-void GPS::DebugSatellites(){
-     char reading[72];
+bool GPS::DebugSatellites()
+{
+    char reading[72];
     bool found = false;
     // it takes about duration ms for it to read all NMEA sentences
     for (unsigned long start = millis(); millis() - start < 500;)
@@ -123,10 +124,10 @@ void GPS::DebugSatellites(){
                 // read a complete sentence
                 mySerial->readBytesUntil('\n', reading, 72);
                 reading[71] = '\0';
-        
+
                 if (reading[2] == 'G' && reading[3] == 'S' && reading[4] == 'V')
                 {
-                    found =true;
+                    found = true;
                     int temp;
                     int numSatellites = 0;
                     int inCount = 0;
@@ -146,12 +147,15 @@ void GPS::DebugSatellites(){
                     }
                     Serial.print("#Satellites = ");
                     Serial.println(numSatellites);
+                    return true;
                 }
             }
             break;
         }
     }
-    if(!found){
+    if (!found)
+    {
         Serial.println("Can't find the NMEA sentence of satellites");
+        return false;
     }
 }

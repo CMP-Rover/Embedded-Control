@@ -54,7 +54,7 @@ String getPosition();
 void NMEA();
 
 /// Debug number of satellites
-void DebugSatellites();
+bool DebugSatellites();
 };
 
 #endif

@@ -11,19 +11,24 @@
 #define analogVmin 0
 #define analogVmax 1023
 
+// Low threshold, medium threshold, high threshold
+static const int SensitivityThresholds[] = {0,384,768};
+enum Thresholds = {Low, Med, HI};
+
 class MQ2
 {
 private:
     int analogPin = 0;       ///< This pin should return the gas concentration
     int digitalPin = 7;      ///< This pin should be HIGH if a gas is past the configured concentration or LOW if not.
     int WarmupPeroid = 1000; ///< Required so the filliment warms up in ms
+    int currentThreshold;
 public:
     /// The constructor for the MQ2 sensor object.
     /// @param analog The analog pin the sensor is connected to
     /// @param digital The digital pin the sensor is connected to
     /// @param reading The reading interval in ms
 
-    MQ2(int analog, int digital, int warmup);
+    MQ2(int analog, int digital, int warmup, int Threshold);
 
     /// Normal destructor, nothing special here.
     ~MQ2();
@@ -32,8 +37,10 @@ public:
     /// @warning Since I can't find a proteus library with a 4 pin connector
     /// this hasn't been tested as much as I'd like. Using a sine generator as
     /// a replacement doesn't seem to work well...
+    /// @param realConc specifies whether the function should return the mapped concentration
+    /// or should return the analog value it reads. (For debugging/testing)
     /// @returns The gas concentration in ppm.
-    float GetGasConcentration();
+    float GetGasConcentration(bool realConc);
 
     /// Reads the digital pin specified in the constructor.
     /// @attention This function sets the digital pin's mode to INPUT.
@@ -50,4 +57,9 @@ public:
     /// @attention This function should be called in setup only since it stops
     /// execution.
     void Warmup();
+
+
+    void LowSensitivity();
+    void MediumSensitivity();
+    void HighSesnitivity();
 };
