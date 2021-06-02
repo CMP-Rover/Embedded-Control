@@ -13,13 +13,11 @@
 ///                  ddmm.mmmm   dddmm.mmmm
 
 class GPS
-{
-private:
+{    
+public:
     double latitude;
     double longitude;
     SoftwareSerial *mySerial;
-public:
-
 /// Constructor
 /// @param mySerial: of type SoftwareSerial, you should create an object of SoftwareSerial and 
 /// pass it by pointer to the GPS.
@@ -30,6 +28,7 @@ public:
 /// ~~~~~~~~~~~
 /// connect rx of mySerial to tx of GPS and tx of mySerial to rx of GPS
 GPS(SoftwareSerial*mySerial);
+GPS(int tx, int rx);
 /// get the latitude 
 double getLatitude();
 /// get the longitude

@@ -11,19 +11,18 @@
 #define analogVmin 0
 #define analogVmax 1023
 
-// Low threshold, medium threshold, high threshold
-static const int MQ2SensitivityThresholds[] = {0,384,768};
-enum MQ2Thresholds{Low, Med, Hi};
 
 class MQ2
 {
 private:
     int analogPin = 0;       ///< This pin should return the gas concentration
+    
     int digitalPin = 7;      ///< This pin should be HIGH if a gas is past the configured concentration or LOW if not.
     int WarmupPeroid = 1000; ///< Required so the filliment warms up in ms
     int currentThreshold;
     bool gasDetected = false;
 public:
+    float Reading;
     /// The constructor for the MQ2 sensor object.
     /// @param analog The analog pin the sensor is connected to
     /// @param digital The digital pin the sensor is connected to

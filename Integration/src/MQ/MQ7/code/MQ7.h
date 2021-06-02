@@ -18,9 +18,6 @@
 #define MAX_OUTPUT  4.3
 #define MIN_OUTPUT  2.5
 
-// Low threshold, medium threshold, high threshold
-static const int MQ7SensitivityThresholds[] = {0,384,768};
-enum MQ7Thresholds{Low, Med, Hi};
 
 class MQ7
 {
@@ -28,10 +25,12 @@ private:
     int analog_pin;
     int digital_pin;
     int warmup_period;
+    
     int detectionThreshold;
     bool gasDetected;
 
 public:
+    int analog_value;
     /// The constructer for the MQ7 sensor object.
     /// @param analog the analog pin the sensor is connected to
     /// @param digital the digital pin the sensor is conneced to
@@ -51,7 +50,7 @@ public:
     /// Vout (voltage measured from the device) ---> ??? ppm
     ///
     /// @returns the Carbon Monoxide concentration in ppm
-    void GetGasConcentration(int &, float &, float &, bool mapToPPM);
+    void GetGasConcentration(float &, float &, bool mapToPPM);
 
     /// Reads the digital pin of the sensor
     /// This will be true if the Carbon Monoxide concentration has exceeded a certain limit

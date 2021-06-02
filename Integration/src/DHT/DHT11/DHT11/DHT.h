@@ -1,6 +1,8 @@
 #pragma once
 #include "Arduino.h"
 
+// DEFAULT ARGUMENTS IN CPP ONLY
+
 static int DHT_id = 0;
 class DHT // for temperature and relative humedity "RH"
 {
@@ -19,7 +21,7 @@ private:
     void assign_RH();
 
 public:
-    DHT(int pin = 0);
+    DHT(int pin);
 
     void set_temperature(float);
     void set_RH(float);
@@ -29,8 +31,8 @@ public:
     float get_RH();
 
     void Read_data();                                   // should be used before getting any data
-    bool Serial_print_data(bool Read_Data = 1);         // if U want the sensor to read data again before printing or not
-    bool Serial_print_data_LabView(bool Read_Data = 1); // if U want the sensor to read data again before printing or not
+    bool Serial_print_data(bool Read_Data);         // if U want the sensor to read data again before printing or not
+    bool Serial_print_data_LabView(bool Read_Data); // if U want the sensor to read data again before printing or not
 
     int temperature_cmp(DHT, int);
     int RH_cmp(DHT, int);

@@ -6,6 +6,13 @@ GPS::GPS(SoftwareSerial *mySerial)
     longitude = 0.0;
     this->mySerial = mySerial;
 }
+GPS::GPS(int tx, int rx)
+{
+    latitude = 0.0;
+    longitude = 0.0;
+    this->mySerial = new SoftwareSerial(tx, rx);
+    mySerial->begin(9600);
+}
 double GPS::getLatitude()
 {
     return latitude;
