@@ -8,18 +8,28 @@ motorEnc::motorEnc(int dir1, int dir2, int pwm)
     interval = 100;
     SECTOMIN = 600;
     inputVolt = 128;
-    INCVAL = 5;
+    INCVAL = 8;
     threshold = 1;
     reachedRequired = false;
-    ENC_COUNT_REV = 410.0;
+    ENC_COUNT_REV = 820.0;
     pinMode(PWM, OUTPUT);
     pinMode(DIR1, OUTPUT);
     pinMode(DIR2, OUTPUT);
 }
-void motorEnc::setRPM(int rpmReq)
+int motorEnc::setRPM(int rpmReq)
 {
-    if (rpmReq == 0)
+  if(rpmReq<0)
+    Direction=0;
+  else
+    Direction=1;
+    
+  rpmReq = abs(rpmReq);
+    if (rpmReq <= 3)
+    {
+      inputVolt = 0;
+      analogWrite(PWM, inputVolt);
         return;
+    }
     // Update RPM value every second
     currentMillis = millis();
     if (currentMillis - previousMillis > interval)
@@ -52,6 +62,8 @@ void motorEnc::setRPM(int rpmReq)
             }
         }
         //
+//        rpm = Direction?rpm:-rpm;
+        
         Serial.print("INPUT VOLT: ");
         Serial.print(inputVolt);
         Serial.print('\t');
@@ -63,13 +75,10 @@ void motorEnc::setRPM(int rpmReq)
         Serial.print("\tRPM Required: ");
         Serial.println(rpmReq);
         //
-        Serial.print("rotations: ");
-        Serial.print(encoderValue / ENC_COUNT_REV * 100);
-        Serial.println(" %\n");
-        //
         analogWrite(PWM, inputVolt);
         encoderValue = 0;
     }
+    return Direction?rpm:-rpm;
 }
 
     void motorEnc::CCW()
@@ -80,6 +89,7 @@ void motorEnc::setRPM(int rpmReq)
 
     void motorEnc::CW()
     {
+      Serial.println("Ana gwaaaa");
         digitalWrite(DIR1, HIGH);
         digitalWrite(DIR2, LOW);
     }

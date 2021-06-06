@@ -13,9 +13,10 @@ class motorEnc
     volatile long encoderValue;
     int inputVolt ,INCVAL;
     bool  reachedRequired;
+    bool Direction;
     float SECTOMIN ,ENC_COUNT_REV;
     motorEnc(int dir1 , int dir2 , int pwm);
-    void setRPM(int rpmReq);
+    int setRPM(int rpmReq);
     void CCW();
     void CW();
     void setPrev(long prev);
